@@ -1,0 +1,5 @@
+dndmaps
+generator
+*.d
+*.o
+.gdb*
