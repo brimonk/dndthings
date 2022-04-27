@@ -44,7 +44,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define COMMON_IMPLEMENTATION
+#include "common.h"
+
+#define STRUCTS_IMPLEMENTATION
 #include "structs.h"
+
 #include "generated.h"
 
 #define COLOR_FG_BLACK   (30)
@@ -152,5 +157,11 @@ int main(int argc, char **argv)
 	map *themap = MapGenerate(30, 16);
 	MapPrint(themap);
 	MapFree(themap);
+
+	printf("Monsters:\n");
+	for (int i = 0; i < ARRSIZE(MONSTERS); i++) {
+		printf("\t%s\n", MONSTERS[i].Name);
+	}
+
 	return 0;
 }
