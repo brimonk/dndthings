@@ -45,6 +45,7 @@
 #include <string.h>
 
 #include "structs.h"
+#include "generated.h"
 
 #define COLOR_FG_BLACK   (30)
 #define COLOR_FG_RED     (31)

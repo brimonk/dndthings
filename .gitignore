@@ -3,3 +3,6 @@ generator
 *.d
 *.o
 .gdb*
+
+# explicitly ignore src/generated.h because we don't want to include generated code in the repo
+src/generated.h

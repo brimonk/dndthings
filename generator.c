@@ -5,14 +5,15 @@
 #include <dirent.h>
 
 #define COMMON_IMPLEMENTATION
-#include "common.h"
+#include "src/common.h"
 
-#include "structs.h"
+#define STRUCTS_IMPLEMENTATION
+#include "src/structs.h"
 
-int FindEnumFromArray(char *k, char *a[], size_t n)
+int FindEnumFromEMap(char *k, emap a[], size_t n)
 {
 	for (size_t i = 0; i < n; i++) {
-		if (streq(k, a[i]))
+		if (streq(k, a[i].itext))
 			return i;
 	}
 
@@ -35,7 +36,7 @@ void ParseMonster(monster *mon, FILE *fp)
 
 		cmd = s;
 
-		if (strlen(cmd) == 0 || cmd[0] == ';')
+		if (strlen(cmd) == 0 || cmd[0] == ';' || cmd[0] == '#')
 			continue;
 
 		arg = strchr(cmd, ' ');
@@ -97,7 +98,7 @@ void ParseMonster(monster *mon, FILE *fp)
 			mon->ActionAsBonusHide = true;
 
 		} else if (streq(cmd, "SOURCEBOOK")) {
-			mon->SourceBook = FindEnumFromArray(arg, SOURCE_MAP, ARRSIZE(SOURCE_MAP));
+			mon->SourceBook = FindEnumFromEMap(arg, SOURCE_MAP, ARRSIZE(SOURCE_MAP));
 		} else if (streq(cmd, "SOURCEPAGE")) {
 			mon->SourcePage = atoi(arg);
 
@@ -110,6 +111,12 @@ void ParseMonster(monster *mon, FILE *fp)
 
 void PrintMonsters(monster *monsters, size_t n)
 {
+	printf("#ifndef GENERATOR_H\n");
+	printf("#define GENERATOR_H\n");
+	printf("\n");
+
+	printf("#include \"structs.h\"\n");
+
 	printf("monster MONSTERS[] = {\n");
 
 	for (size_t i = 0; i < n; i++) {
@@ -121,7 +128,7 @@ void PrintMonsters(monster *monsters, size_t n)
 		printf(" \"%s\", ", curr->Name);
 
 		printf("%d, ", curr->Size);
-		printf("%d, ", curr->Alignment);
+		printf("%s, ", ALIGNMENT_MAP[curr->Alignment].etext);
 		printf("%d, ", curr->ArmorClass);
 
 		printf("%d, ", curr->HitpointsDie);
@@ -149,13 +156,17 @@ void PrintMonsters(monster *monsters, size_t n)
 		printf("%d, ", curr->ActionAsBonusDisengage);
 		printf("%d, ", curr->ActionAsBonusHide);
 
-		printf("%d, ", curr->SourceBook);
+		printf("%s, ", SOURCE_MAP[curr->SourceBook].etext);
 		printf("%d ", curr->SourcePage);
 
 		printf("}%s", i == n - 1 ? "\n" : ",\n");
 	}
 
 	printf("};\n");
+
+	printf("\n");
+
+	printf("#endif // GENERATOR_H\n");
 }
 
 int main(int argc, char **argv)

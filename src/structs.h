@@ -1,18 +1,20 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-// Brian Chrzanowski
-// 2022-04-25 00:44:52
 //
-// Clearly, just the structs for the dnd generator. Nothing much to see here.
+// NOTE (Brian) struct definitions for the entire program (probably)
+//
+
+typedef struct emap {
+	char *etext;
+	char *itext;
+} emap;
 
 enum {
 	SOURCE_MONSTERMANUAL
 };
 
-char *SOURCE_MAP[] = {
-	"MONSTERMANUAL"
-};
+// emap SOURCE_MAP[];
 
 enum {
 	ALIGNMENT_LG,
@@ -27,17 +29,7 @@ enum {
 	ALIGNMENT_TOTAL
 };
 
-char *ALIGNMENT_MAP[] = {
-	"LAWFULGOOD",
-	"LAWFULNEUTRAL",
-	"LAWFULEVIL",
-	"NEUTRALGOOD",
-	"NEUTRALNEUTRAL",
-	"NEUTRALEVIL",
-	"CHAOTICGOOD",
-	"CHAOTICNEUTRAL",
-	"CHAOTICEVIL"
-};
+// emap ALIGNMENT_MAP[];
 
 enum {
 	SIZE_TINY,
@@ -48,7 +40,7 @@ enum {
 	SIZE_GARGANTUAN
 };
 
-char *SIZE_MAP[] = { "TINY", "SMALL", "MEDIUM", "LARGE", "HUGE", "GARGANTUAN" };
+// emap SIZE_MAP[];
 
 typedef struct monster {
 	char *Name;
@@ -88,5 +80,35 @@ typedef struct monster {
 
 typedef struct player {
 } player;
+
+#ifdef STRUCTS_IMPLEMENTATION
+
+emap SOURCE_MAP[] = {
+	{ "SOURCE_MONSTERMANUAL", "MONSTERMANUAL" }
+};
+
+emap SIZE_MAP[] = {
+	{ "SIZE_TINY",       "TINY" },
+	{ "SIZE_SMALL",      "SMALL" },
+	{ "SIZE_MEDIUM",     "MEDIUM" },
+	{ "SIZE_LARGE",      "LARGE" },
+	{ "SIZE_HUGE",       "HUGE" },
+	{ "SIZE_GARGANTUAN", "GARGANTUAN" }
+};
+
+
+emap ALIGNMENT_MAP[] = {
+	{ "ALIGNMENT_LG", "LAWFULGOOD" },
+	{ "ALIGNMENT_LN", "LAWFULNEUTRAL" },
+	{ "ALIGNMENT_LE", "LAWFULEVIL" },
+	{ "ALIGNMENT_NG", "NEUTRALGOOD" },
+	{ "ALIGNMENT_NN", "NEUTRALNEUTRAL" },
+	{ "ALIGNMENT_NE", "NEUTRALEVIL" },
+	{ "ALIGNMENT_CG", "CHAOTICGOOD" },
+	{ "ALIGNMENT_CN", "CHAOTICNEUTRAL" },
+	{ "ALIGNMENT_CE", "CHAOTICEVIL" }
+};
+
+#endif // STRUCTS_IMPLEMENTATION
 
 #endif // STRUCTS_H

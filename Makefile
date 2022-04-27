@@ -1,11 +1,13 @@
-CC=gcc
 LINKER=
 CFLAGS=-Wall -g3 -march=native
-SRC=$(wildcard src/*.c)
+
+SRC=src/main.c
 OBJ=$(SRC:.c=.o)
 DEP=$(OBJ:.o=.d)
 
-.PHONY: all
+GENSRC=generator.c
+GENOBJ=$(GENSRC:.c=.o)
+GENDEP=$(GENOBJ:.o=.d)
 
 all: generator dndmaps
 
@@ -17,13 +19,14 @@ all: generator dndmaps
 
 -include $(DEP)
 
-dndmaps: src/main.o
+dndmaps: $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKER)
 
-generator: src/generator.o
+generator: generator.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKER)
+	./$@ > src/generated.h
 
 clean:
-	rm -f $(OBJ)
-	rm -f $(DEP)
+	rm -f $(OBJ) $(OBJ)
+	rm -f src/generated.h
 	rm -f generator dndmaps

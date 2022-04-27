@@ -1,4 +1,4 @@
-; Goblin
+# Goblin
 NAME Goblin
 SIZE SMALL
 ALIGNMENT LAWFULEVIL
